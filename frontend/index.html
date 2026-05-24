@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ResearchBot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="logo">RB</span>
+        <span class="logo-text">ResearchBot</span>
+      </div>
+
+      <div class="session-block">
+        <label>Session ID</label>
+        <input type="text" id="sessionId" value="default" />
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-title">Memory Search</div>
+        <div class="search-row">
+          <input type="text" id="memoryQuery" placeholder="search your research..." />
+          <button id="searchBtn">↵</button>
+        </div>
+        <div id="memoryResults" class="memory-results"></div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-title">Recent Memory</div>
+        <button id="loadMemoryBtn" class="ghost-btn">Load memory log</button>
+        <div id="memoryLog" class="memory-log"></div>
+      </div>
+    </aside>
+
+    <!-- Main chat -->
+    <main class="main">
+      <div class="chat-header">
+        <div class="chat-title">Research Assistant</div>
+        <div class="chat-subtitle">Powered by llama3.2 · Memory-augmented</div>
+      </div>
+
+      <div class="messages" id="messages">
+        <div class="message assistant">
+          <div class="bubble">
+            Hello. I remember everything you've researched. What are we working on today?
+          </div>
+          <div class="meta">ResearchBot</div>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <textarea
+          id="userInput"
+          placeholder="Ask about your research, paste a paper abstract, or just think out loud..."
+          rows="1"
+        ></textarea>
+        <button id="sendBtn">Send</button>
+      </div>
+    </main>
+
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

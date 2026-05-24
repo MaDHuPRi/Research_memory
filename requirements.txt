@@ -1,5 +1,16 @@
-flask
-flask-cors
-chromadb
-sentence-transformers
-requests
+flask==3.0.3
+flask-cors==4.0.1
+chromadb==0.5.3
+sentence-transformers==3.0.1
+ollama==0.3.0
+python-dotenv==1.0.1
+pydantic==2.8.2
+
+# Phase 2 — LoRA / QLoRA (install when ready)
+# torch>=2.3.0
+# transformers>=4.43.0
+# peft>=0.12.0
+# bitsandbytes>=0.43.0
+# datasets>=2.20.0
+# trl>=0.9.6
+# accelerate>=0.32.0

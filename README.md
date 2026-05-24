@@ -1,46 +1,82 @@
-# Research Memory Assistant
+# ResearchBot
 
-An AI research companion that remembers everything across sessions using ChromaDB vector memory + Ollama.
+A memory-augmented AI research assistant. Runs fully local — zero cost, zero cloud.
 
-## Setup (one time)
+## Stack
+- **Ollama + llama3.2** — local LLM for chat and fact extraction
+- **ChromaDB** — local vector store for persistent memory
+- **sentence-transformers** — local embeddings (all-MiniLM-L6-v2)
+- **Flask** — Python backend API
+- **HTML/CSS/JS** — clean frontend
 
+---
+
+## Phase 1: Setup & Run
+
+### 1. Install Ollama + pull model
 ```bash
-# 1. Install dependencies
-pip install -r requirements.txt
-
-# 2. Make sure Ollama is running with CORS enabled
-OLLAMA_ORIGINS=* ollama serve
-
-# 3. Make sure llama3.2 is pulled
+# Install from https://ollama.com
 ollama pull llama3.2
 ```
 
-## Run
-
+### 2. Create a virtual environment
 ```bash
-python app.py
+python3 -m venv venv
+source venv/bin/activate
 ```
 
-Open http://localhost:5000
+### 3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
 
-## How it works
+### 4. Run the Flask backend
+```bash
+python -m backend.app
+```
 
-1. You chat about your research
-2. After each message, the AI extracts memorable facts (topics, sources, arguments, deadlines)
-3. Facts are embedded and stored in ChromaDB locally
-4. Every new message searches memory for relevant context
-5. The AI responds with full awareness of your research history
+### 5. Open the frontend
+Open `frontend/index.html` in your browser (or serve with Live Server in VS Code).
 
-## Memory categories
-- **topic** — research areas and subjects
-- **source** — papers, books, websites referenced
-- **argument** — key claims and positions
-- **deadline** — time-sensitive items
-- **preference** — how you like to work
-- **question** — open questions to explore
+---
 
-## Files
-- `app.py` — Flask backend + Chroma + Ollama logic
-- `templates/index.html` — frontend UI
-- `memory_db/` — auto-created, stores your vector memory
-- `requirements.txt` — Python dependencies
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/chat` | Send a message, get a response |
+| GET | `/api/memory/search?q=<query>` | Semantic memory search |
+| GET | `/api/memory/all?session_id=<id>` | All memories for a session |
+| GET | `/api/history?session_id=<id>` | Conversation history |
+| GET | `/api/health` | Health check |
+
+---
+
+## Phase 2: LoRA / QLoRA Fine-tuning (coming next)
+
+Uncomment the Phase 2 packages in `requirements.txt`, then:
+
+```bash
+pip install -r requirements.txt
+python training/train_lora.py
+```
+
+Fine-tunes llama3.2 on academic writing using QLoRA (4-bit) — runs on Mac Apple Silicon.
+
+---
+
+## Project Structure
+```
+research-bot/
+├── backend/
+│   ├── app.py          # Flask API
+│   ├── chat.py         # Ollama chat + memory context
+│   ├── memory.py       # ChromaDB read/write
+│   ├── extractor.py    # Fact extraction from messages
+│   └── embeddings.py   # sentence-transformers
+├── training/           # Phase 2: LoRA/QLoRA scripts
+├── frontend/           # HTML/CSS/JS UI
+├── data/               # ChromaDB storage + training data
+├── models/adapters/    # Saved LoRA weights
+└── requirements.txt
+```
